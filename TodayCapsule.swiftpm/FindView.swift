@@ -56,6 +56,7 @@ struct FindView: View {
         .onAppear {
             addMarkers()
             requestLocation()
+            
             region.span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
         }
     }
