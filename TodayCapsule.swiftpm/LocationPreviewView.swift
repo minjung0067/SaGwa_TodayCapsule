@@ -10,7 +10,7 @@ struct LocationPreviewView: View {
     let myFavoriteLocations = [
         MyFavoriteLocation(name: "박태준 학술정보관", coordinate: CLLocationCoordinate2D(latitude: 36.01276, longitude: 129.32516), image: "bluepin"),
         MyFavoriteLocation(name: "포항 공대 체육관", coordinate: CLLocationCoordinate2D(latitude: 36.01880, longitude: 129.32311), image: "redpin")]
-
+    
     // 첫 번째 즐겨찾는 위치의 좌표를 사용하여 초기 표시 영역을 결정합니다.
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 36.01276, longitude: 129.32516),
@@ -19,44 +19,42 @@ struct LocationPreviewView: View {
     
     var body: some View {
         if #available(iOS 17.0, *) {
-            Map(selection: $selection) {
-                ForEach(myFavoriteLocations) { location in
-                    Marker(location.name, coordinate: location.coordinate)
-                        .tint(.orange)
-                    MapCircle(center: location.coordinate, radius: CLLocationDistance(100))
-                        .foregroundStyle(.orange.opacity(0.50))
-                        .mapOverlayLevel(level: .aboveLabels)
+            
+            ZStack{
+                Map(selection: $selection) {
+                    ForEach(myFavoriteLocations) { location in
+                        Marker(location.name, coordinate: location.coordinate)
+                            .tint(.orange)
+                        MapCircle(center: location.coordinate, radius: CLLocationDistance(100))
+                            .foregroundStyle(.orange.opacity(0.50))
+                            .mapOverlayLevel(level: .aboveLabels)
+                    }
                 }
-            }
-            .onAppear(){
-                region.span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
-            }
-            .safeAreaInset(edge: .leading) {
-                HStack {
-                    VStack{
-                        Spacer()
-                        if let selectedItem = myFavoriteLocations.first(where: { $0.id == selection }) {
-                            Button(action: {
-                                self.isModalShowing.toggle()
-                            }) {
-                                Text("\(selectedItem.name)에서 캡슐을 발견했어요!")
-                                    .padding()
-                                    .foregroundColor(.white)
-                                    .font(.headline)
-                            }
-                            .background(
-                                Capsule()
-                                    .fill(Color.orange)
-                                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
-                            )
-                            .sheet(isPresented: $isModalShowing) {
-                                GeometryReader { geometry in
-                                    ModalView(isModalShowing: $isModalShowing, selection: $selection)
-                                        .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.5)
-                                }
-                            }
+                .frame(width: 400, height: 1000, alignment: .center)
+                .ignoresSafeArea()
+                .onAppear(){
+                    region.span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+                }
+                
+                if let selectedItem = myFavoriteLocations.first(where: { $0.id == selection }) {
+                    Button(action: {
+                        self.isModalShowing.toggle()
+                    }) {
+                        Text("\(selectedItem.name)에서 캡슐을 발견했어요!")
+                            .padding()
+                            .foregroundColor(.white)
+                            .font(.headline)
+                    }
+                    .background(
+                        Capsule()
+                            .fill(Color.orange)
+                            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                    )
+                    .sheet(isPresented: $isModalShowing) {
+                        GeometryReader { geometry in
+                            ModalView(isModalShowing: $isModalShowing, selection: $selection)
+                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height * 0.2)
                         }
-                        Spacer()
                     }
                 }
             }
@@ -101,7 +99,6 @@ struct ModalView: View {
                     .frame(width: 300, height: 200)
                 Text("펑키 님의 캡슐")
             }
-
             
             Button("확인") {
                 dismiss()
