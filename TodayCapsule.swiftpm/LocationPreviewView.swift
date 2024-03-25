@@ -54,7 +54,7 @@ struct LocationPreviewView: View {
                     Button(action: {
                         self.isModalShowing.toggle()
                     }) {
-                        Text("\(selectedItem.name)에서 캡슐을 발견했어요!")
+                        Text("'\(selectedItem.name)'에서 캡슐을 발견했어요!")
                             .padding()
                             .foregroundColor(.white)
                             .font(.headline)
@@ -109,12 +109,14 @@ struct ModalView: View {
     ]
     
     @State private var selectedCapsule: CapsuleInfo?
+    @State private var confirmCapsule: CapsuleInfo?
+    @State private var showAlert = false
     
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
                 Spacer()
-                Text("캡슐 목록")
+                Text("하루 캡슐 목록")
                     .font(.system(size: 24))
                     .fontWeight(.bold)
                     .padding(10)
@@ -122,6 +124,7 @@ struct ModalView: View {
                 ForEach(capsuleList) { capsuleInfo in
                     Button(action: {
                         selectedCapsule = capsuleInfo
+                        showAlert = true // 버튼을 누를 때 확인 창을 표시하기 위해 showAlert를 true로 설정합니다.
                     }) {
                         ZStack {
                             Image(capsuleInfo.imageName)
@@ -129,7 +132,7 @@ struct ModalView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 300, height: 80)
                             
-                            Text("\(capsuleInfo.owner) 님의 캡슐")
+                            Text("\(capsuleInfo.owner) 님의 하루 캡슐")
                                 .font(.system(size: 16))
                                 .fontWeight(.semibold)
                                 .foregroundColor(Color(red: 0.2, green: 0.2, blue: 0.2))
@@ -137,7 +140,7 @@ struct ModalView: View {
                         }
                         .padding(.vertical, 5)
                     }
-                    .buttonStyle(PlainButtonStyle()) // 버튼 스타일을 PlainButtonStyle로 설정하여 기본 버튼 스타일을 적용합니다.
+                    .buttonStyle(PlainButtonStyle())
                 }
                 Spacer()
                 Spacer()
@@ -162,10 +165,20 @@ struct ModalView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .background(Color.orange.opacity(1).edgesIgnoringSafeArea(.all))
-        .fullScreenCover(item: $selectedCapsule) { capsuleInfo in
+        .alert(isPresented: $showAlert) { // showAlert가 true일 때 확인 창을 표시합니다.
+            Alert(
+                title: Text("이 하루 캡슐을 열까요?"),
+                message: Text("한번 연 캡슐은 다시 닫히지 않아요."),
+                primaryButton: .default(Text("열기")) {
+                    confirmCapsule = selectedCapsule
+                },
+                secondaryButton: .cancel(Text("취소")) // 사용자가 취소를 선택한 경우
+            )
+        }
+        .fullScreenCover(item: $confirmCapsule) { capsuleInfo in
             // 선택된 캡슐 정보에 따른 새로운 화면을 표시합니다.
             // 이곳에 새로운 화면을 표시하는 뷰를 구현합니다.
-            Text("선택된 캡슐: \(capsuleInfo.owner)")
+            Text("\(capsuleInfo.owner)님의 하루 캡슐")
             Button(action: {
                 dismiss()
             }) {

@@ -32,7 +32,7 @@ struct MainView: View {
                     .tag(Tab.a)
                     
                     NavigationStack {
-                        BView()
+                        ContainView()
                     }
                     .tag(Tab.b)
                     
