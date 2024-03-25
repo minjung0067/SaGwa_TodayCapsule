@@ -19,7 +19,7 @@ struct LocationPreviewView: View {
     
     var body: some View {
         if #available(iOS 17.0, *) {
-            Map(selection: $selection){
+            Map(selection: $selection) {
                 ForEach(myFavoriteLocations) { location in
                     Marker(location.name, coordinate: location.coordinate)
                         .tint(.orange)
@@ -28,7 +28,10 @@ struct LocationPreviewView: View {
                         .mapOverlayLevel(level: .aboveLabels)
                 }
             }
-            .safeAreaInset(edge: .top) {
+            .onAppear(){
+                region.span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+            }
+            .safeAreaInset(edge: .leading) {
                 HStack {
                     VStack{
                         Spacer()
@@ -69,19 +72,6 @@ struct LocationPreviewView: View {
             // Fallback on earlier versions
         }
     }
-    private func regionForMarkers() -> MKCoordinateRegion {
-            guard let firstLocation = myFavoriteLocations.first else {
-                return MKCoordinateRegion(
-                    center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
-                    span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-                )
-            }
-            
-            return MKCoordinateRegion(
-                center: firstLocation.coordinate,
-                span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05) // Adjust this value as needed
-            )
-        }
 }
 
 
