@@ -70,6 +70,7 @@ struct MainView: View {
             }
             .foregroundStyle(selected == .a ? Color.accentColor : Color.primary)
             Spacer()
+            Spacer()
             Button {
                 selected = .b
             } label: {
@@ -86,27 +87,27 @@ struct MainView: View {
             }
             .foregroundStyle(selected == .b ? Color.accentColor : Color.primary)
             Spacer()
-            Button {
-                selected = .c
-            } label: {
-                VStack(alignment: .center) {
-                    Image(systemName: "person")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 22)
-                    if selected == .c {
-                        Text("보관함")
-                            .font(.system(size: 11))
-                    }
-                }
-            }
-            .foregroundStyle(selected == .c ? Color.accentColor : Color.primary)
-            Spacer()
+//            Button {
+//                selected = .c
+//            } label: {
+//                VStack(alignment: .center) {
+//                    Image(systemName: "person")
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 22)
+//                    if selected == .c {
+//                        Text("보관함")
+//                            .font(.system(size: 11))
+//                    }
+//                }
+//            }
+//            .foregroundStyle(selected == .c ? Color.accentColor : Color.primary)
+            //Spacer()
         }
         .padding()
-        .frame(height: 70)
+        .frame(width: 250, height: 70)
         .background {
-            RoundedRectangle(cornerRadius: 27)
+            RoundedRectangle(cornerRadius: 35)
                 .fill(Color.white)
                 .shadow(color: .black.opacity(0.15), radius: 8, y: 2)
         }

@@ -40,7 +40,7 @@ struct ContainView: View {
                 .padding()
                 .background(
                     NavigationLink(
-                        destination: AnotherEmptyPage(),
+                        destination: FinishCapsuleView(),
                         isActive: $isCompleted,
                         label: { EmptyView() }
                     )
@@ -90,7 +90,8 @@ struct ImagePicker: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
 }
 
-struct AnotherEmptyPage: View {
+// 작성 완료되었을 때 페이지
+struct FinishCapsuleView: View {
     var body: some View {
         Text("아직 안 한 페이지 ")
     }
