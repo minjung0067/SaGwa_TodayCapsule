@@ -16,30 +16,16 @@ struct MainView: View {
             TabView(selection: $selected) {
                 Group {
                     NavigationStack {
-                        //                        FindView(isShowMapView: $isShowMapView, region: $region)
-                        //                            .overlay(
-                        //                                Text("찾 기")
-                        //                                    .font(.title)
-                        //                                    .foregroundColor(.black)
-                        //                                    .fontWeight(.bold)
-                        //                                    .padding()
-                        //                                    .frame(maxWidth: .infinity, alignment: .center),
-                        //                                alignment: .top
-                        //                            )
-                        
-                        LocationPreviewView()
+                        MapView()
+                            .ignoresSafeArea()
                     }
                     .tag(Tab.a)
                     
                     NavigationStack {
                         ContainView()
+                            .ignoresSafeArea()
                     }
                     .tag(Tab.b)
-                    
-                    //                    NavigationStack {
-                    //                        CView()
-                    //                    }
-                    //                    .tag(Tab.c)
                 }
                 .toolbar(.hidden, for: .tabBar)
             }
@@ -64,7 +50,7 @@ struct MainView: View {
                         .frame(width: 22)
                     if selected == .a {
                         Text("찾기")
-                            .font(.custom("KCC-Ganpan", size: 11))
+                            .font(.custom("KCC-Ganpan", size: 12))
                     }
                 }
             }
@@ -81,7 +67,7 @@ struct MainView: View {
                         .frame(width: 22)
                     if selected == .b {
                         Text("담기")
-                            .font(.custom("KCC-Ganpan", size: 11))
+                            .font(.custom("KCC-Ganpan", size: 12))
                     }
                 }
             }

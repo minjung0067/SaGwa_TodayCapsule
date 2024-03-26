@@ -13,7 +13,7 @@ struct PillLoaderView: View {
     // MARK:- variables
     let trackerRotation: Double = 1.5
     let animationDuration: Double = 3
-    let backgroundColor: LinearGradient = LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.4), Color.purple.opacity(0.3)]), startPoint: .topLeading, endPoint: .bottom)
+    let backgroundColor: LinearGradient = LinearGradient(gradient: Gradient(colors: [Color.yellow.opacity(0.6), Color.yellow.opacity(0.2)]), startPoint: .topLeading, endPoint: .bottom)
     
     @State var isAnimating: Bool = false
     @State var hideCapsule: Bool = false
@@ -24,8 +24,6 @@ struct PillLoaderView: View {
     // MARK:- views
     var body: some View {
         ZStack {
-            backgroundColor
-                .edgesIgnoringSafeArea(.all)
             ZStack {
                 PillsDropView(isAnimating: $hideCapsule)
                     .opacity(self.hideCapsule ? 1 : 0)

@@ -2,7 +2,7 @@ import SwiftUI
 import MapKit
 import CoreLocation
 
-struct LocationPreviewView: View {
+struct MapView: View {
     @State var selection: UUID?
     @State private var isModalShowing = false
     
@@ -29,7 +29,7 @@ struct LocationPreviewView: View {
                             .mapOverlayLevel(level: .aboveLabels)
                     }
                 }
-                .frame(width: 500, height: 1200, alignment: .center)
+                .navigationBarHidden(true) // NavigationBar 숨기기
                 .ignoresSafeArea()
                 .mapControls {
                     MapUserLocationButton()
@@ -75,7 +75,7 @@ struct LocationPreviewView: View {
                         }
                         .padding(10)
                         .shadow(color: Color.white.opacity(0.3), radius: 5, x: 0, y: 2)
-
+                        
                     }
                     .background(
                         Rectangle()
@@ -127,6 +127,8 @@ struct ModalView: View {
     @State private var selectedCapsule: CapsuleInfo?
     @State private var confirmCapsule: CapsuleInfo?
     @State private var showAlert = false
+    let backgroundColor: LinearGradient = LinearGradient(gradient: Gradient(colors: [Color.yellow.opacity(0.0), Color.yellow.opacity(0.2)]), startPoint: .topLeading, endPoint: .bottom)
+    @State private var text = "영일대 해변가에서 돗자리 펴고 하루종일 누워있었음. 매우 행복."
     
     var body: some View {
         ScrollView {
@@ -181,14 +183,14 @@ struct ModalView: View {
                 }
                 
             }
-//            .padding()
-//            .background(Color.white)
-//            .cornerRadius(40)
-//            .shadow(radius: 10)
-//            .padding()
+            //            .padding()
+            //            .background(Color.white)
+            //            .cornerRadius(40)
+            //            .shadow(radius: 10)
+            //            .padding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-//        .background(Color.orange.opacity(1).edgesIgnoringSafeArea(.all))
+        //        .background(Color.orange.opacity(1).edgesIgnoringSafeArea(.all))
         .alert(isPresented: $showAlert) { // showAlert가 true일 때 확인 창을 표시합니다.
             Alert(
                 title: Text("이 캡슐을 열까요?"),
@@ -200,18 +202,65 @@ struct ModalView: View {
             )
         }
         .fullScreenCover(item: $confirmCapsule) { capsuleInfo in
-            Button(action: {
-                dismiss()
-            }) {
-                Text("확인")
-                    .font(.custom("KCC-Ganpan", size: 13))
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)) // 내부 여백 조정
-                    .background(Color.orange)
-                    .cornerRadius(30)
-                    .shadow(radius: 5)
-            }
+            NavigationView {
+                ZStack{
+                    backgroundColor
+                        .edgesIgnoringSafeArea(.all)
+                    VStack {
+                        ZStack {
+                            Image(capsuleInfo.imageName)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 340, height: 100)
+                                .shadow(color: Color.yellow.opacity(0.4), radius: 10, x: 2, y: 2)
+                            
+                            Text("\(capsuleInfo.owner) 님의 하루 캡슐")
+                                .font(.custom("KCC-Ganpan", size: 16))
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color(red: 0.2, green: 0.2, blue: 0.2))
+                                .cornerRadius(10)
+                        }
+                        //
+                        //                        Text("짠")
+                        //                            .font(.custom("KCC-Ganpan", size: 35))
+                        //                            .fontWeight(.bold)
+                        //                            .foregroundColor(.black)
+                        //                            .opacity(0.7)
+                        //                            .padding(10)
+                        Text("박태준 학술정보관")
+                            .font(.custom("KCC-Ganpan", size: 16))
+                            .foregroundColor(.brown)
+                            .fontWeight(.light)
+                            .opacity(0.9)
+                            .padding(20)
+                        
+                        TextField("글", text: $text)
+                            .foregroundColor(Color.black)
+                            .font(.custom("KCC-Ganpan", size: 13))
+                            .padding(30)
+                            .frame(width: 300, height: 150)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.white.opacity(0.3))
+                                    .shadow(color: .white, radius: 2, x: 0, y: 2)
+                            )
+                            .padding()
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Text("확인")
+                                .font(.custom("KCC-Ganpan", size: 13))
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)) // 내부 여백 조정
+                                .background(Color.orange)
+                                .cornerRadius(30)
+                                .shadow(radius: 5)
+                        }
+                    }}}
+            
+            
+            
         }
     }
     
