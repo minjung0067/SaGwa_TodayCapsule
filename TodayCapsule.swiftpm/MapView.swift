@@ -128,7 +128,7 @@ struct ModalView: View {
     @State private var confirmCapsule: CapsuleInfo?
     @State private var showAlert = false
     let backgroundColor: LinearGradient = LinearGradient(gradient: Gradient(colors: [Color.yellow.opacity(0.2), Color.yellow.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottom)
-    @State private var text = "영일대 해변가에서 돗자리 펴고 하루종일 누워있었음. 매우 행복."
+    @State private var text = "도서관 앞 잔디밭에서 돗자리 깔고 누워있었더니 천국이 따로 없었음ㅋ"
     
     var body: some View {
         ScrollView {
@@ -231,10 +231,6 @@ struct ModalView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 340, height: 100)
                                 .shadow(color: Color.yellow.opacity(0.4), radius: 10, x: 2, y: 2)
-                            
-                            
-                            
-                            
                             Text("\(capsuleInfo.owner) 님의 하루 캡슐")
                                 .font(.custom("KCC-Ganpan", size: 17))
                                 .fontWeight(.semibold)
@@ -248,12 +244,16 @@ struct ModalView: View {
                         //                            .foregroundColor(.black)
                         //                            .opacity(0.7)
                         //                            .padding(10)
-                        
+                        Image("nup")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 200, height: 200)
+                            .cornerRadius(20)
                         Text(text)
                             .foregroundColor(Color.black)
                             .font(.custom("KCC-Ganpan", size: 13))
                             .padding(30)
-                            .frame(width: 300, height: 200)
+                            .frame(width: 300, height: 150)
                             .background(
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.white.opacity(0.3))
