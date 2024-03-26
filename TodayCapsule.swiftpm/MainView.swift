@@ -16,16 +16,16 @@ struct MainView: View {
             TabView(selection: $selected) {
                 Group {
                     NavigationStack {
-//                        FindView(isShowMapView: $isShowMapView, region: $region)
-//                            .overlay(
-//                                Text("찾 기")
-//                                    .font(.title)
-//                                    .foregroundColor(.black)
-//                                    .fontWeight(.bold)
-//                                    .padding()
-//                                    .frame(maxWidth: .infinity, alignment: .center),
-//                                alignment: .top
-//                            )
+                        //                        FindView(isShowMapView: $isShowMapView, region: $region)
+                        //                            .overlay(
+                        //                                Text("찾 기")
+                        //                                    .font(.title)
+                        //                                    .foregroundColor(.black)
+                        //                                    .fontWeight(.bold)
+                        //                                    .padding()
+                        //                                    .frame(maxWidth: .infinity, alignment: .center),
+                        //                                alignment: .top
+                        //                            )
                         
                         LocationPreviewView()
                     }
@@ -36,10 +36,10 @@ struct MainView: View {
                     }
                     .tag(Tab.b)
                     
-                    NavigationStack {
-                        CView()
-                    }
-                    .tag(Tab.c)
+                    //                    NavigationStack {
+                    //                        CView()
+                    //                    }
+                    //                    .tag(Tab.c)
                 }
                 .toolbar(.hidden, for: .tabBar)
             }
@@ -64,7 +64,7 @@ struct MainView: View {
                         .frame(width: 22)
                     if selected == .a {
                         Text("찾기")
-                            .font(.system(size: 11))
+                            .font(.custom("KCC-Ganpan", size: 11))
                     }
                 }
             }
@@ -81,27 +81,27 @@ struct MainView: View {
                         .frame(width: 22)
                     if selected == .b {
                         Text("담기")
-                            .font(.system(size: 11))
+                            .font(.custom("KCC-Ganpan", size: 11))
                     }
                 }
             }
             .foregroundStyle(selected == .b ? Color.accentColor : Color.primary)
             Spacer()
-//            Button {
-//                selected = .c
-//            } label: {
-//                VStack(alignment: .center) {
-//                    Image(systemName: "person")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 22)
-//                    if selected == .c {
-//                        Text("보관함")
-//                            .font(.system(size: 11))
-//                    }
-//                }
-//            }
-//            .foregroundStyle(selected == .c ? Color.accentColor : Color.primary)
+            //            Button {
+            //                selected = .c
+            //            } label: {
+            //                VStack(alignment: .center) {
+            //                    Image(systemName: "person")
+            //                        .resizable()
+            //                        .scaledToFit()
+            //                        .frame(width: 22)
+            //                    if selected == .c {
+            //                        Text("보관함")
+            //                            .font(.system(size: 11))
+            //                    }
+            //                }
+            //            }
+            //            .foregroundStyle(selected == .c ? Color.accentColor : Color.primary)
             //Spacer()
         }
         .padding()
@@ -114,12 +114,12 @@ struct MainView: View {
         .padding(.horizontal)
     }
 }
-
-struct CView: View {
-    var body: some View {
-        Text("보관함")
-    }
-}
+//
+//struct CView: View {
+//    var body: some View {
+//        Text("보관함")
+//    }
+//}
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {

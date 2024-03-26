@@ -21,6 +21,7 @@ struct ContainView: View {
                         isImagePickerPresented = true
                     }) {
                         Text("사진 업로드하기")
+                            .font(.custom("KCC-Ganpan", size: 11))
                     }
                     .padding()
                     .sheet(isPresented: $isImagePickerPresented) {
@@ -29,6 +30,7 @@ struct ContainView: View {
                 }
 
                 TextField("글 작성하기", text: $textInput)
+                    .font(.custom("KCC-Ganpan", size: 11))
                     .padding()
 
                 Button(action: {
@@ -36,6 +38,7 @@ struct ContainView: View {
                     isCompleted = true
                 }) {
                     Text("완료")
+                        .font(.custom("KCC-Ganpan", size: 11))
                 }
                 .padding()
                 .background(
@@ -94,6 +97,7 @@ struct ImagePicker: UIViewControllerRepresentable {
 struct FinishCapsuleView: View {
     var body: some View {
         Text("아직 안 한 페이지 ")
+            .font(.custom("KCC-Ganpan", size: 11))
     }
 }
 
