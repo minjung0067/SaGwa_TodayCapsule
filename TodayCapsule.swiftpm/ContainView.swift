@@ -47,12 +47,14 @@ struct ContainView: View {
                         isActive: $isCompleted,
                         label: { EmptyView() }
                     )
+                    .isDetailLink(false) // This disables the back button
                 )
 
                 Spacer()
             }
             .navigationBarTitle("하루 캡슐 담기")
             .multilineTextAlignment(.center)
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -94,10 +96,28 @@ struct ImagePicker: UIViewControllerRepresentable {
 }
 
 // 작성 완료되었을 때 페이지
+
 struct FinishCapsuleView: View {
     var body: some View {
-        Text("아직 안 한 페이지 ")
-            .font(.custom("KCC-Ganpan", size: 11))
+        ZStack {
+            Color.white.edgesIgnoringSafeArea(.all) // 전체 화면을 덮는 백그라운드 컬러
+            
+            VStack {
+                PillLoaderView() // PillLoaderView 추가
+                
+                Text("내용을 추가하세요") // 텍스트 한 줄
+                
+                Spacer() // 텍스트와 닫기 버튼 사이의 간격을 조절하기 위한 Spacer
+                
+                Button(action: {
+                    // 닫기 버튼 액션
+                }) {
+                    Text("닫기") // 닫기 버튼
+                        .foregroundColor(.black)
+                        .padding()
+                }
+            }
+        }
     }
 }
 

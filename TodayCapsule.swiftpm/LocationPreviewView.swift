@@ -29,7 +29,7 @@ struct LocationPreviewView: View {
                             .mapOverlayLevel(level: .aboveLabels)
                     }
                 }
-                .frame(width: 400, height: 1200, alignment: .center)
+                .frame(width: 500, height: 1200, alignment: .center)
                 .ignoresSafeArea()
                 .mapControls {
                     MapUserLocationButton()
@@ -54,21 +54,40 @@ struct LocationPreviewView: View {
                     Button(action: {
                         self.isModalShowing.toggle()
                     }) {
-                        Text("'\(selectedItem.name)'에서 캡슐을 발견했어요!")
-                            .font(.custom("KCC-Ganpan", size: 15))
-                            .padding()
-                            .foregroundColor(.white)
-                            .font(.headline)
+                        VStack{
+                            Text("현재 위치")
+                                .font(.custom("KCC-Ganpan", size: 14))
+                                .fontWeight(.light)
+                                .padding(10)
+                                .foregroundColor(.white)
+                                .font(.headline)
+                            Text("'\(selectedItem.name)'")
+                                .font(.custom("KCC-Ganpan", size: 20))
+                                .fontWeight(.bold)
+                                .padding(10)
+                                .foregroundColor(.white)
+                                .font(.headline)
+                            Text(" > 캡슐 보러가기 < ")
+                                .font(.custom("KCC-Ganpan", size: 15))
+                                .fontWeight(.light)
+                                .foregroundColor(.white)
+                                .padding(10)
+                        }
+                        .padding(10)
+                        .shadow(color: Color.white.opacity(0.3), radius: 5, x: 0, y: 2)
+
                     }
                     .background(
-                        Capsule()
-                            .fill(Color.orange)
-                            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                        Rectangle()
+                            .frame(width: 300, alignment: .center)
+                            .foregroundColor(Color.orange)
+                            .opacity(0.9)
+                            .shadow(color: Color.black.opacity(0.7), radius: 5, x: 0, y: 2)
+                            .cornerRadius(40)
                     )
                     .sheet(isPresented: $isModalShowing) {
-                        GeometryReader { geometry in
-                            ModalView(isModalShowing: $isModalShowing, selection: $selection)
-                        }
+                        ModalView(isModalShowing: $isModalShowing, selection: $selection)
+                            .presentationDetents([.medium])
                     }
                 }
             }
@@ -102,11 +121,7 @@ struct ModalView: View {
     @Binding var selection: UUID?
     
     let capsuleList: [CapsuleInfo] = [
-        CapsuleInfo(imageName: "capsuleList", owner: "오징어"),
-        CapsuleInfo(imageName: "capsuleList", owner: "가오리"),
-        CapsuleInfo(imageName: "capsuleList", owner: "고구마"),
-        CapsuleInfo(imageName: "capsuleList", owner: "딱새우"),
-        CapsuleInfo(imageName: "capsuleList", owner: "올챙이"),
+        CapsuleInfo(imageName: "capsuleList", owner: "펑키"),
     ]
     
     @State private var selectedCapsule: CapsuleInfo?
@@ -117,9 +132,14 @@ struct ModalView: View {
         ScrollView {
             VStack(spacing: 10) {
                 Spacer()
-                Text("이 구역에 놓인 하루 캡슐")
+                Spacer()
+                Text("이 구역의 하루 캡슐")
                     .font(.custom("KCC-Ganpan", size: 24))
                     .fontWeight(.bold)
+                    .padding(10)
+                Text("* 열고 싶은 캡슐을 클릭해보세요! *")
+                    .font(.custom("KCC-Ganpan", size: 15))
+                    .opacity(0.5)
                     .padding(10)
                 Spacer()
                 ForEach(capsuleList) { capsuleInfo in
@@ -131,7 +151,8 @@ struct ModalView: View {
                             Image(capsuleInfo.imageName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 300, height: 80)
+                                .frame(width: 340, height: 100)
+                                .shadow(color: Color.yellow.opacity(0.4), radius: 10, x: 2, y: 2)
                             
                             Text("\(capsuleInfo.owner) 님의 하루 캡슐")
                                 .font(.custom("KCC-Ganpan", size: 16))
@@ -148,10 +169,11 @@ struct ModalView: View {
                 Button(action: {
                     dismiss()
                 }) {
-                    Text("확인")
-                        .font(.custom("KCC-Ganpan", size: 11))
+                    Text(" 돌아가기 ")
+                        .font(.custom("KCC-Ganpan", size: 13))
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
+                        .opacity(0.8)
                         .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)) // 내부 여백 조정
                         .background(Color.orange)
                         .cornerRadius(30)
@@ -159,18 +181,18 @@ struct ModalView: View {
                 }
                 
             }
-            .padding()
-            .background(Color.white)
-            .cornerRadius(40)
-            .shadow(radius: 10)
-            .padding()
+//            .padding()
+//            .background(Color.white)
+//            .cornerRadius(40)
+//            .shadow(radius: 10)
+//            .padding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .background(Color.orange.opacity(1).edgesIgnoringSafeArea(.all))
+//        .background(Color.orange.opacity(1).edgesIgnoringSafeArea(.all))
         .alert(isPresented: $showAlert) { // showAlert가 true일 때 확인 창을 표시합니다.
             Alert(
                 title: Text("이 캡슐을 열까요?"),
-                message: Text("한번 연 캡슐은 다시 닫히지 않아요."),
+                message: Text("누군가가 보낸 일상이 담겨있어요."),
                 primaryButton: .default(Text("열기")) {
                     confirmCapsule = selectedCapsule
                 },
@@ -178,12 +200,11 @@ struct ModalView: View {
             )
         }
         .fullScreenCover(item: $confirmCapsule) { capsuleInfo in
-            Text("\(capsuleInfo.owner)님의 하루 캡슐")
-                .font(.custom("KCC-Ganpan", size: 11))
             Button(action: {
                 dismiss()
             }) {
                 Text("확인")
+                    .font(.custom("KCC-Ganpan", size: 13))
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)) // 내부 여백 조정

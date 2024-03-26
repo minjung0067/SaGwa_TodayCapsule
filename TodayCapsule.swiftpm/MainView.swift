@@ -87,22 +87,6 @@ struct MainView: View {
             }
             .foregroundStyle(selected == .b ? Color.accentColor : Color.primary)
             Spacer()
-            //            Button {
-            //                selected = .c
-            //            } label: {
-            //                VStack(alignment: .center) {
-            //                    Image(systemName: "person")
-            //                        .resizable()
-            //                        .scaledToFit()
-            //                        .frame(width: 22)
-            //                    if selected == .c {
-            //                        Text("보관함")
-            //                            .font(.system(size: 11))
-            //                    }
-            //                }
-            //            }
-            //            .foregroundStyle(selected == .c ? Color.accentColor : Color.primary)
-            //Spacer()
         }
         .padding()
         .frame(width: 250, height: 70)
@@ -114,12 +98,6 @@ struct MainView: View {
         .padding(.horizontal)
     }
 }
-//
-//struct CView: View {
-//    var body: some View {
-//        Text("보관함")
-//    }
-//}
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
