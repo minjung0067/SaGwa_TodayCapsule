@@ -77,6 +77,7 @@ struct MainView: View {
         .padding()
         .frame(width: 250, height: 70)
         .background {
+            // tabbar 배경화면 들어가는 부분
             RoundedRectangle(cornerRadius: 35)
                 .fill(Color.white)
                 .shadow(color: .black.opacity(0.15), radius: 8, y: 2)

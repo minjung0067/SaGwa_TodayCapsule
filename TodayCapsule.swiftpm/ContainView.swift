@@ -10,6 +10,8 @@ struct ContainView: View {
     
     
     var body: some View {
+        
+        
         NavigationView {
             ZStack{
                 backgroundColor
@@ -104,7 +106,7 @@ struct ContainView: View {
                 .multilineTextAlignment(.center)
                 .navigationBarBackButtonHidden(true)
             }
-        }
+        } //navigation end
         
     }
 }
@@ -186,9 +188,10 @@ struct FinishCapsuleView: View {
                 message: nil,
                 dismissButton: .default(Text("확인")) {
                     titleText = "하루 캡슐 완성 !"
-                    messageText = "하루 캡슐을 사람들과 나눠보아요."
+                    messageText = "사람들과 하루 캡슐을 나눠보아요."
                     isCompleted = true
                     selectedTab = .a
+                    isShowingAlert = false
                 }
             )
         }

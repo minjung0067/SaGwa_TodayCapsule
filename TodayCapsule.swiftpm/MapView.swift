@@ -6,6 +6,14 @@ struct MapView: View {
     @State var selection: UUID?
     @State private var isModalShowing = false
     
+    @State var data = [
+        todayCapsule(id: 0, image: "capsule", location: "박태준 학술정보관", owner: "펑키",  text: "도서관 앞 잔디밭에서 돗자리 깔고 누워있었더니 천국이 따로 없었음ㅋ")
+    ]
+    
+    @State var index = 0
+    @State var show = false
+
+    
     let myFavoriteLocations = [
         MyFavoriteLocation(name: "박태준 학술정보관", coordinate: CLLocationCoordinate2D(latitude: 36.01276, longitude: 129.32516), image: "bluepin"),
         MyFavoriteLocation(name: "포항 공대 체육관", coordinate: CLLocationCoordinate2D(latitude: 36.01880, longitude: 129.32311), image: "redpin")]
@@ -86,7 +94,7 @@ struct MapView: View {
                             .cornerRadius(40)
                     )
                     .sheet(isPresented: $isModalShowing) {
-                        ModalView(isModalShowing: $isModalShowing, selection: $selection)
+                        ModalView(isModalShowing: $isModalShowing, selection: $selection, index: $index, show: $show)
                             .presentationDetents([.medium])
                     }
                 }
@@ -123,12 +131,18 @@ struct ModalView: View {
     let capsuleList: [CapsuleInfo] = [
         CapsuleInfo(imageName: "capsuleList", owner: "펑키"),
     ]
-    
+
     @State private var selectedCapsule: CapsuleInfo?
     @State private var confirmCapsule: CapsuleInfo?
     @State private var showAlert = false
     let backgroundColor: LinearGradient = LinearGradient(gradient: Gradient(colors: [Color.yellow.opacity(0.2), Color.yellow.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottom)
-    @State private var text = "도서관 앞 잔디밭에서 돗자리 깔고 누워있었더니 천국이 따로 없었음ㅋ"
+    
+    @Binding var index : Int
+    @Binding var show : Bool
+    
+    @State var data = [
+        todayCapsule(id: 0, image: "capsule", location: "박태준 학술정보관", owner: "펑키",  text: "도서관 앞 잔디밭에서 돗자리 깔고 누워있었더니 천국이 따로 없었음ㅋ")
+    ]
     
     var body: some View {
         ScrollView {
@@ -202,78 +216,51 @@ struct ModalView: View {
             )
         }
         .fullScreenCover(item: $confirmCapsule) { capsuleInfo in
-            NavigationView {
-                ZStack{
-                    backgroundColor
-                        .edgesIgnoringSafeArea(.all)
-                    VStack {
+
+            
+            ZStack{
+                
+                VStack{
+
+                    HStack{
+
+                        Text("하루 캡슐 💊")
+                            .font(.custom("KCC-Ganpan", size: 30))
+                            .fontWeight(.bold)
+
+                        Spacer()
                         
-                        HStack {
-                            // 지도 마커 표시 아이콘
-                            Image("capsule")
-                                .resizable() // 이미지 크기 조절을 위해 resizable 사용
-                                .aspectRatio(contentMode: .fit) // 이미지를 적절하게 맞추기 위해 aspectRatio 사용
-                                .frame(width: 35, height: 35) // 이미지의 크기를 조절
-                                .foregroundColor(.orange)
-                            Text("박태준 학술정보관")
-                                .font(.custom("KCC-Ganpan", size: 30))
-                                .foregroundColor(.brown)
-                                .fontWeight(.light)
-                            Image("capsule")
-                                .resizable() // 이미지 크기 조절을 위해 resizable 사용
-                                .aspectRatio(contentMode: .fit) // 이미지를 적절하게 맞추기 위해 aspectRatio 사용
-                                .frame(width: 35, height: 35) // 이미지의 크기를 조절
-                                .foregroundColor(.orange)
-                        }
-                        ZStack {
-                            Image(capsuleInfo.imageName)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 340, height: 100)
-                                .shadow(color: Color.yellow.opacity(0.4), radius: 10, x: 2, y: 2)
-                            Text("\(capsuleInfo.owner) 님의 하루 캡슐")
-                                .font(.custom("KCC-Ganpan", size: 17))
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color(red: 0.2, green: 0.2, blue: 0.2))
-                                .cornerRadius(10)
-                        }
-                        //
-                        //                        Text("짠")
-                        //                            .font(.custom("KCC-Ganpan", size: 35))
-                        //                            .fontWeight(.bold)
-                        //                            .foregroundColor(.black)
-                        //                            .opacity(0.7)
-                        //                            .padding(10)
-                        Image("nup")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 200, height: 200)
-                            .cornerRadius(20)
-                        Text(text)
-                            .foregroundColor(Color.black)
-                            .font(.custom("KCC-Ganpan", size: 13))
-                            .padding(30)
-                            .frame(width: 300, height: 150)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.white.opacity(0.3))
-                                    .shadow(color: .white, radius: 2, x: 0, y: 2)
-                            )
-                            .lineLimit(nil) // 모든 텍스트 보여주기
-                            .padding()
                         Button(action: {
                             dismiss()
                         }) {
-                            Text("확인")
-                                .font(.custom("KCC-Ganpan", size: 13))
-                                .fontWeight(.semibold)
+                            
+                            Image(systemName: "xmark")
+                                .scaleEffect(0.8)
                                 .foregroundColor(.white)
-                                .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)) // 내부 여백 조정
-                                .background(Color.orange)
-                                .cornerRadius(30)
-                                .shadow(radius: 5)
+                                .padding()
+                                .background(Color.orange.opacity(0.7))
+                                .clipShape(Circle())
                         }
-                    }}}
+                    }
+                    .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
+                    .padding()
+
+                    GeometryReader{g in
+                        
+                        Carousel(data: $data, index: $index, show: $show, size: g.frame(in: .global))
+                    }
+                    .padding(.bottom, (UIApplication.shared.windows.first?.safeAreaInsets.bottom)! + 10)
+                }
+                
+                
+                // Current index will give current card...
+                ExpandView(data: self.$data[self.index], show: self.$show)
+                //shrinking the view in background...
+                .scaleEffect(self.show ? 1 : 0)
+                .frame(width: self.show ? nil : 0, height: self.show ? nil : 0)
+            }
+            .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.all))
+            .edgesIgnoringSafeArea(.all)
             
             
             
