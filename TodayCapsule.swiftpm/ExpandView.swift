@@ -18,7 +18,7 @@ struct ExpandView : View {
             
             ZStack(alignment: .center) {
                 
-//                Image(self.data.image)
+//                Image(self.도data.image)
 //                .resizable()
 //                .cornerRadius(25)
                 
@@ -27,14 +27,16 @@ struct ExpandView : View {
             VStack(alignment: .leading, spacing: 20){
                 
                 Text("\(self.data.owner)의 하루")
-                    .font(.custom("KCC-Ganpan", size: 30))
+                    .font(.custom("KCC-Ganpan", size: 35))
                     .font(.title)
                     .fontWeight(.bold)
                 
                 Text(self.data.text)
-                    .font(.custom("KCC-Ganpan", size: 15))
+                    .fontWeight(.thin)
+                    .font(.custom("KCC-Ganpan", size: 16))
                     .foregroundColor(.black)
                     .opacity(0.6)
+                    .lineSpacing(10) // 줄 간격을 10으로 설정
             }
             .padding(.horizontal,40)
             .padding(.bottom,20)

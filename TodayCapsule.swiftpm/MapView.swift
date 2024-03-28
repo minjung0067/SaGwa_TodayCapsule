@@ -6,9 +6,9 @@ struct MapView: View {
     @State var selection: UUID?
     @State private var isModalShowing = false
     
-    @State var data = [
-        todayCapsule(id: 0, image: "capsule", location: "박태준 학술정보관", owner: "펑키",  text: "도서관 앞 잔디밭에서 돗자리 깔고 누워있었더니 천국이 따로 없었음ㅋ")
-    ]
+//    @State var data = [
+//        todayCapsule(id: 0, image: "capsule", location: "박태준 학술정보관", owner: "펑키",  text: "도서관 앞 잔디밭에서 돗자리 깔고 누워있었더니 천국이 따로 없었음ㅋ 하루 종일 돗자리에서 누워있고 싶다 증말 ~ 😎🤟🏻")
+//    ]
     
     @State var index = 0
     @State var show = false
@@ -141,7 +141,7 @@ struct ModalView: View {
     @Binding var show : Bool
     
     @State var data = [
-        todayCapsule(id: 0, image: "capsule", location: "박태준 학술정보관", owner: "펑키",  text: "도서관 앞 잔디밭에서 돗자리 깔고 누워있었더니 천국이 따로 없었음ㅋ")
+        todayCapsule(id: 0, image: "capsule", location: "박태준 학술정보관", owner: "펑키",  text: "도서관 앞 잔디밭에서 돗자리 깔고 누워있었더니 천국이 따로 없었음ㅋ 하루 종일 돗자리에서 누워있고 싶ㄷr.... ~ 😎🤟🏻")
     ]
     
     var body: some View {

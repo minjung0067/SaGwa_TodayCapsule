@@ -9,6 +9,7 @@ struct MainView: View {
     @State private var selected: Tab = .a
     @State private var region: MKCoordinateRegion = MKCoordinateRegion()
     @State var isShowMapView: Bool = false
+    @State var isAnimating: Bool = true
     
     
     var body: some View {
@@ -22,8 +23,19 @@ struct MainView: View {
                     .tag(Tab.a)
                     
                     NavigationStack {
-                        ContainView()
-                            .ignoresSafeArea()
+                        Rectangle()
+                            .foregroundColor(.black)
+                            .opacity(0.1)
+//                        ContainView()
+//                            .ignoresSafeArea()
+                    }
+                    .onAppear{
+                        Rectangle()
+                            .rotationEffect(.degrees(0))
+                            .frame(width: 220)
+                            .shadow(color: .gray, radius: 1, x:2, y:2)
+                            .offset(x: -95, y: isAnimating ? -280 : -530)
+                            .animation(Animation.easeInOut.speed(0.15).delay(1.5), value: isAnimating)
                     }
                     .tag(Tab.b)
                 }
